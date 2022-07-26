@@ -62,7 +62,7 @@ describe( "Land registry Test Suite", async () => {
     
   } )
   it( "should remove ownership", async () => {
-    
+    console.log("heyyy")
   })
     
     });
