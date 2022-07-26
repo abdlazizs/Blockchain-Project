@@ -27,6 +27,24 @@ describe( "Decentralized storage Test Suite", async () => {
       .to.emit( storageContract, 'FileUploadedEvent' )
       .withArgs( "File Uploaded", addr1.address );
     console.log( "______________Event Emitted Succesfully" );
-    })
+    } )
+  
+   it( "Should delete file", async () => {
+    const { storageContract, addr1 } = await loadFixture( deployFixture );
+    const deleteFile = await storageContract.connect( addr1 ).deleteFile( 0 );
+    await deleteFile.wait();
+    console.log( "file deleted" );
     
+  } )
+  
+   it( "check total file count", async () => {
+    const { storageContract, addr1 } = await loadFixture( deployFixture );
+    const checkFiles = await storageContract.connect( addr1 ).getTotalFileCount();
+    expect( checkFiles ).to.eq( 0 );
+    console.log( "passed" );
+
+    
+    
+  })
+  
     });

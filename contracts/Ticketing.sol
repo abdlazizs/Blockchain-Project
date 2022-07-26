@@ -250,10 +250,10 @@ contract Ticketing {
         uint64 requested_num_tickets
     ) external payable {
         require(requested_num_tickets > 0);
-        require(
-            ticket_type < events[event_id].available_tickets.length,
-            "Ticket type does not exist."
-        );
+        // require(
+        //     ticket_type < events[event_id].available_tickets.length,
+        //     "Ticket type does not exist."
+        // );
         require(
             requested_num_tickets <=
                 events[event_id].available_tickets[ticket_type],

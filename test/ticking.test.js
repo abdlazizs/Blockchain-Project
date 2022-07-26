@@ -24,7 +24,7 @@ describe( "Ticketing Contract Test Suite", async () => {
     
     const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
 
-    let deadline = Math.round( new Date( "2022-07-26" ).getTime() / 1000 );
+    let deadline = Math.round( new Date( "2022-07-28" ).getTime() / 1000 );
     testVal = [ 'concert', [ 100 ], [ 1 ], true, 5, deadline, owner.address ];
     const createEvent = await contract.connect( owner ).createEvent( "concert", [ 100 ], [ 1e16.toString() ], true, 5, deadline );
     await createEvent.wait();
@@ -41,9 +41,9 @@ describe( "Ticketing Contract Test Suite", async () => {
     
     
   } );
-  it( "should Add another Event", async () => {
+  it( "should Add another Event and delete first event", async () => {
     const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
-    let deadline = Math.round( new Date( "2022-07-26" ).getTime() / 1000 );
+    let deadline = Math.round( new Date( "2022-07-28" ).getTime() / 1000 );
     const createEvent2 = await contract.connect( addr1 ).createEvent( "colab", [ 50 ], [ 1e16.toString() ], true, 5, deadline );
     await createEvent2.wait();
     console.log( "owner address:___", addr1.address );
@@ -57,48 +57,23 @@ describe( "Ticketing Contract Test Suite", async () => {
     console.log( events[ 1 ].event_id );
     
   } );
-} );
-  //   it( "should buy ticket", async () => {
-  //   const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
-  //   let buyer = addr1;
+  it( "should add ticket", async () => {
+    const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
     
-   
-  // //   await expect( await contract.buy_tickets( events[ 0 ].event_id ) ).to.be.reverted;
+  } )
+  it( "should stop and continue sale", async () => {
+    const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
     
-  //   console.log( "ticket bought" );
-
-  // })
-  // it( 'Check no tickets reply', async () => {
-  //   const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
-     
-  //   let buyer = addr1;
-  //   try {
-  //     await contract.get_tickets(events[0].event_id,;
-  //     assert.fail("Funtion get_tickets should fail.")
-  //   } catch (error) {
-  //     if(error.message.search('Sender does not own any tickets') > -1) {
-  //       // correct outcome, test should pass
-  //     } else {
-  //       throw error;
-  //     }
-  //   }
-  // });
-
-  // it( "should buy ticket", async () => {
-  //   const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
-  //   let buyer = addr1;
+  } )
+  it( "should change ticket price", async () => {
+    const { contract, owner, addr1, addr2, addr3 } = await loadFixture( deployFixture );
     
-   
-  // //   await expect( await contract.buy_tickets( events[ 0 ].event_id ) ).to.be.reverted;
+  } )
+  it( "should buy ticket", async () => {
     
-  //   console.log( "ticket bought" );
-
-  
-  
-
+  } )
+  it( "should return ticket", async () => {
     
+  })
 
-  
-
-
-  
+});
