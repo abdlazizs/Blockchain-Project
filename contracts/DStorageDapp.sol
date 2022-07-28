@@ -4,13 +4,9 @@ pragma solidity ^0.8.9;
 contract DStorageDapp {
     string public contractName = "Decentralized Storage";
 
-    mapping(address => uint256) internal totalFilesOf;
-
-    mapping(address => mapping(uint256 => File)) internal fileOf;
-
     struct File {
-        uint256 fileId;
-        string fileHash;
+        uint256 fileId; //file id to be uploaded
+        string fileHash; 
         uint256 fileSize;
         string fileType;
         string fileName;
@@ -18,6 +14,10 @@ contract DStorageDapp {
         uint256 uploadTime;
         address uploader;
     }
+
+    mapping(address => uint256) internal totalFilesOf;
+
+    mapping(address => mapping(uint256 => File)) internal fileOf;
 
     event FileUploadedEvent(string action, address uploader);
 
