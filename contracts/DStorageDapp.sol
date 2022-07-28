@@ -72,7 +72,7 @@ contract DStorageDapp {
         fileOf[msg.sender][_id].fileDes = "";
     }
 
-    function editFileDeatils(
+    function editFileDetails(
         uint256 _id,
         string memory _name,
         string memory _des
