@@ -30,7 +30,7 @@ contract Ticketing {
         uint64[] num_tickets;
         bytes32 ticketId;
     }
-
+    eventsData[] public genEvents;
     mapping(string => eventsData) public events;
     string[] public event_id_list;
     uint8 public constant max_ticket_types = 100;
@@ -44,9 +44,9 @@ contract Ticketing {
     );
     event ticket_bought(
         address indexed buyer,
-        string eventName,
-        uint totalTickets,
-        uint timestamp
+        string eventName
+        
+        
     );
     event fund_withdrawn(
         address indexed creator,
@@ -215,7 +215,7 @@ contract Ticketing {
     }
 
     // view funds of bought tickets
-    function view_funds(string memory event_id)
+    function view_funds(string calldata event_id)
         external
         view
         eventExists(event_id)
@@ -250,10 +250,10 @@ contract Ticketing {
         uint64 requested_num_tickets
     ) external payable {
         require(requested_num_tickets > 0);
-        // require(
-        //     ticket_type < events[event_id].available_tickets.length,
-        //     "Ticket type does not exist."
-        // );
+        require(
+            ticket_type < events[event_id].available_tickets.length,
+            "Ticket type does not exist."
+        );
         require(
             requested_num_tickets <=
                 events[event_id].available_tickets[ticket_type],
@@ -310,6 +310,7 @@ contract Ticketing {
             );
             require(success, "Return of excess funds to sender failed.");
         }
+        emit ticket_bought(msg.sender, event_id);
     }
 
     // returns ticket
