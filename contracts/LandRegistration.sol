@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+//couldnt find the unique number...isnt the unique number suppose to be a state variable
+
 
 contract LandRegistration{
     // the struct below is the struct that contains all details of the land
@@ -40,7 +42,7 @@ contract LandRegistration{
         Deployer = msg.sender;
     }
 
- function calculateNumber(uint _plotNumber,
+    function calculateNumber(uint _plotNumber,
         string memory _location,
         string memory _district,
         string memory _state) public pure returns(uint _uniqueNumber){
@@ -53,7 +55,9 @@ contract LandRegistration{
     }
 
     //Registration of land details
-    function register(string memory _state,string memory _district,
+    function register(
+        string memory _state,
+        string memory _district,
         string memory _location,
         string memory _landmark,
         uint _plotNumber,
@@ -77,7 +81,7 @@ contract LandRegistration{
         }
 
     // the owner function checks to show details of the land to the owner
-    function Owner(uint _uniqueNumber) public view returns(string memory,
+    function showLandDetailsToOwner(uint _uniqueNumber) public view returns(string memory,
     string memory,string memory, uint256, bool, address, ReqStatus){
         return (Land[_uniqueNumber].state,
                 Land[_uniqueNumber].district,
@@ -88,7 +92,7 @@ contract LandRegistration{
                 Land[_uniqueNumber].reqStatus);
     }
     // the buyer function checks to show details of the land to the buyer
-    function Buyer(uint _uniqueNumber) public view returns(address, uint, bool, address, ReqStatus){
+    function showLandDetailsToBuyer(uint _uniqueNumber) public view returns(address, uint, bool, address, ReqStatus){
         return (Land[_uniqueNumber].currentOwner,
                 Land[_uniqueNumber].priceSelling,
                 Land[_uniqueNumber].isAvailable,
@@ -133,14 +137,15 @@ contract LandRegistration{
         require(Land[_uniqueNumber].reqStatus == ReqStatus.Approved, "The Owner of the land hasnt approved the sales");
         require(msg.value >= Land[_uniqueNumber].priceSelling, "The price should be more tha or equal to the selling price");
         
-        (bool success, ) = payable(Land[_uniqueNumber].currentOwner).call{value: msg.value}("");
-        require(success, "failed to send");
         removeOwnership(Land[_uniqueNumber].currentOwner, _uniqueNumber);
         Land[_uniqueNumber].currentOwner = msg.sender;
         Land[_uniqueNumber].isAvailable = false;
         Land[_uniqueNumber].requester = address(0);
         Land[_uniqueNumber].reqStatus = ReqStatus.Default;
         profile[msg.sender].assetList.push(_uniqueNumber);
+        
+        (bool success, ) = payable(Land[_uniqueNumber].currentOwner).call{value: msg.value}("");
+        require(success, "failed to send");
     }
     
     //removing the ownership of the seller of the land
